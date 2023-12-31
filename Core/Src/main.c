@@ -47,6 +47,8 @@ int main(void) {
   MX_USB_OTG_FS_PCD_Init();
 
   while (1) {
+    HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
+    HAL_Delay(500);
   }
 }
 
