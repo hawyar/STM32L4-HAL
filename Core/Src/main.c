@@ -1,5 +1,13 @@
 #include "main.h"
 
+#include <math.h>
+#include <stdio.h>
+
+#include "stm32l475e_iot01.h"
+#include "stm32l475e_iot01_accelero.h"
+#include "stm32l475e_iot01_hsensor.h"
+#include "stm32l475e_iot01_tsensor.h"
+
 DFSDM_Channel_HandleTypeDef hdfsdm1_channel1;
 
 I2C_HandleTypeDef hi2c2;
@@ -13,7 +21,14 @@ UART_HandleTypeDef huart3;
 
 PCD_HandleTypeDef hpcd_USB_OTG_FS;
 
-/* Private function prototypes -----------------------------------------------*/
+char str_tmp[256];
+
+float temp_value;
+
+uint8_t tmp_start_msg[] =
+    "=====> Initializing Temperature & Humidity sensor HTS221 \r\n";
+uint8_t tmp_success_msg[] = "==> Sensor HTS221 OK! \r\n";
+
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_DFSDM1_Init(void);
@@ -47,8 +62,19 @@ int main(void) {
   MX_USB_OTG_FS_PCD_Init();
 
   while (1) {
-    HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
-    HAL_Delay(500);
+    Blink(200);
+  }
+  return 0;
+}
+
+void Blink(uint32_t delay) {
+  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
+  HAL_Delay(delay);
+}
+
+void UART_Transmit(UART_HandleTypeDef *huart, uint8_t *data, uint16_t size) {
+  if (HAL_UART_Transmit(huart, data, size, 1000) != HAL_OK) {
+    Error_Handler();
   }
 }
 
@@ -569,6 +595,7 @@ void Error_Handler(void) {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
   __disable_irq();
+
   while (1) {
   }
   /* USER CODE END Error_Handler_Debug */

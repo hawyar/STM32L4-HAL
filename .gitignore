@@ -1,5 +1,7 @@
-.settings/*
+.settings
 *.cproject
 *.mxproject
 *.project
 *.launch
+.vscode
+*.ld

@@ -10,6 +10,32 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include Drivers/STM32L4xx_HAL_Driver/Src/subdir.mk
+-include Drivers/BSP/Components/wm8994/subdir.mk
+-include Drivers/BSP/Components/stmpe811/subdir.mk
+-include Drivers/BSP/Components/stmpe1600/subdir.mk
+-include Drivers/BSP/Components/st7789h2/subdir.mk
+-include Drivers/BSP/Components/st7735/subdir.mk
+-include Drivers/BSP/Components/st25dv/subdir.mk
+-include Drivers/BSP/Components/ov9655/subdir.mk
+-include Drivers/BSP/Components/mfxstm32l152/subdir.mk
+-include Drivers/BSP/Components/m24sr/subdir.mk
+-include Drivers/BSP/Components/lsm6dsl/subdir.mk
+-include Drivers/BSP/Components/lsm303dlhc/subdir.mk
+-include Drivers/BSP/Components/lsm303c/subdir.mk
+-include Drivers/BSP/Components/ls016b8uy/subdir.mk
+-include Drivers/BSP/Components/lps22hb/subdir.mk
+-include Drivers/BSP/Components/lis3mdl/subdir.mk
+-include Drivers/BSP/Components/l3gd20/subdir.mk
+-include Drivers/BSP/Components/hx8347i/subdir.mk
+-include Drivers/BSP/Components/hx8347g/subdir.mk
+-include Drivers/BSP/Components/hts221/subdir.mk
+-include Drivers/BSP/Components/ft6x06/subdir.mk
+-include Drivers/BSP/Components/ft5336/subdir.mk
+-include Drivers/BSP/Components/ft3x67/subdir.mk
+-include Drivers/BSP/Components/cy8c4014lqi/subdir.mk
+-include Drivers/BSP/Components/cs43l22/subdir.mk
+-include Drivers/BSP/Components/cs42l51/subdir.mk
+-include Drivers/BSP/B-L475E-IOT01/subdir.mk
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
 -include objects.mk
@@ -61,7 +87,7 @@ main-build: STM32L4-HAL.elf secondary-outputs
 
 # Tool invocations
 STM32L4-HAL.elf STM32L4-HAL.map: $(OBJS) $(USER_OBJS) /Users/hawyar/STM32CubeIDE/workspace_1.13.1/STM32L4-HAL/STM32L475VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "STM32L4-HAL.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/hawyar/STM32CubeIDE/workspace_1.13.1/STM32L4-HAL/STM32L475VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32L4-HAL.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+	arm-none-eabi-gcc -o "STM32L4-HAL.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/hawyar/STM32CubeIDE/workspace_1.13.1/STM32L4-HAL/STM32L475VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32L4-HAL.map" -Wl,--gc-sections -static -u _printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
